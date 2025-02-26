@@ -16,7 +16,7 @@ func Predict(data string) string {
 		panic(err)
 	}
 	model := client.GenerativeModel("gemini-1.5-flash")
-	resp, err := model.GenerateContent(context.Background(), genai.Text(fmt.Sprintf("According to the texts I give you, the character of the person for whom these texts are intended, just remove the predicted characters, separate them and give your answer only in Persian. Words:%s", data)))
+	resp, err := model.GenerateContent(context.Background(), genai.Text(fmt.Sprintf("Based on the texts that I provide to you, which are separated by commas, you should identify the personality of the individual these texts belong to. For example, you should state if this person is wealthy, loves knowledge, is in a relationship, etc., and overall, analyze them. These texts can come from any source, such as their messages, their own writings, or messages from others.Your answer must be in Persian only.words:%s", data)))
 	if err != nil {
 		log.Fatal(err)
 	}

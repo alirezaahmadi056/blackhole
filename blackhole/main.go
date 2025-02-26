@@ -19,14 +19,17 @@ func main() {
 		apiKey := context.GetHeader("x-api-key")
 		if apiKey == "" {
 			context.JSON(http.StatusBadRequest, "Invalid Api Key")
+			return
 		}
-		if utils.CalculateMd5(apiKey) != "" {
+		if utils.CalculateMd5(apiKey) != "a0c41faa37f61436fe438d82ad6758e0" {
 			context.JSON(http.StatusBadRequest, "Invalid Api Key")
+			return
 		}
 		var response json.ApiResponseSaveData
 		err := context.ShouldBindJSON(&response)
 		if err != nil {
 			context.JSON(http.StatusBadGateway, "bad request")
+			return
 		}
 		result := database.SaveDataToDataBase(response.UserId, response.Data)
 		if result {
@@ -39,14 +42,17 @@ func main() {
 		apiKey := context.GetHeader("x-api-key")
 		if apiKey == "" {
 			context.JSON(http.StatusBadRequest, "Invalid Api Key")
+			return
 		}
-		if utils.CalculateMd5(apiKey) != "" {
+		if utils.CalculateMd5(apiKey) != "a0c41faa37f61436fe438d82ad6758e0" {
 			context.JSON(http.StatusBadRequest, "Invalid Api Key")
+			return
 		}
 		var response json.ApiResponsePredict
 		err := context.ShouldBindJSON(&response)
 		if err != nil {
 			context.JSON(http.StatusBadGateway, "bad request")
+			return
 		}
 		result := database.GetAllUserData(response.UserId)
 		clearedResult := strings.Join(result, ",")
@@ -54,7 +60,7 @@ func main() {
 		context.JSON(http.StatusOK, aiResult)
 	})
 
-	err := server.Run(":8000")
+	err := server.Run("0.0.0.0:3131")
 	if err != nil {
 		return
 	}
